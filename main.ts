@@ -1,8 +1,6 @@
 import type { App, VNode } from 'vue'
 import { render } from 'vue'
 
-export * from './src/element-plus'
-
 export const createVueExtension = () => {
   return {
     isntall(app: App) {

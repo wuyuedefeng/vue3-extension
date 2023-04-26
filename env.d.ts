@@ -12,3 +12,10 @@ declare module '*.vue' {
   const componentOptions: ComponentOptions
   export default componentOptions
 }
+
+
+export declare interface VueExtension {
+  install: (app: App) => void;
+};
+
+export declare function createVueExtension(): VueExtension;

@@ -4,6 +4,7 @@
   "files": [
     "dist"
   ],
+  "types": "env.d.ts",
   "main": "./dist/vue-extension.umd.js",
   "module": "./dist/vue-extension.es.js",
   "exports": {

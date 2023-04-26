@@ -1,3 +1,4 @@
+import type { VueExtension } from '..'
 import type { App, VNode } from 'vue'
 import { render } from 'vue'
 
@@ -16,6 +17,3 @@ export const createVueExtension = (): VueExtension => {
   }
 }
 
-export declare interface VueExtension {
-  install: (app: App) => void;
-}

@@ -1,8 +1,9 @@
 {
   "name": "vue3-extension",
-  "version": "0.0.1-alpha.0",
+  "version": "0.0.1-alpha.1",
   "files": [
-    "dist"
+    "dist",
+    "env.d.ts"
   ],
   "types": "env.d.ts",
   "main": "./dist/vue-extension.umd.js",
@@ -13,6 +14,10 @@
       "require": "./dist/vue-extension.umd.js"
     }
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wuyuedefeng/vue3-extension.git"
+},
   "scripts": {
     "build": "run-p type-check build-only",
     "preview": "vite preview",

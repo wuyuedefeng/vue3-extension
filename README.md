@@ -13,7 +13,6 @@ $ npm install vue3-extension -S
 
 ```tsx
 <script lang="tsx" setup>
-<script lang="tsx" setup>
 import { computed, ref, vShow } from 'vue'
 
 const divRef = ref(null)
@@ -50,6 +49,10 @@ const objectIs = ref({
     }, {
       _is: 'div',
       _render: () => <span>{ inputValue.value }</span>
+    }, {
+      _is: 'div',
+      // 'v-text': `<span style="color: red">hello<span>`
+      'v-html': `<span style="color: red">hello<span>`
     }
   ]
 })
@@ -68,7 +71,12 @@ export interface ObjectComponentIs extends Record<string, any> {
   _children?: any[] | Record<string, any>;
   _slots?: Record<string, () => JSX.Element | JSX.Element[]>;
   _render?: () => JSX.Element | JSX.Element[];
-  // v-model | v-bind | v-if | v-memo
-  // ...attrs
+  'v-model'?: Ref<any>;
+  'v-bind'?: Object | Ref<Object>;
+  'v-if'?: boolean | Ref<boolean>;
+  'v-memo'?: Ref<any[]> | Ref<any>[];
+  'v-once'?: boolean | Ref<boolean>; // == v-memo="[]"
+  'v-html'?: string | Ref<string>;
+  'v-text'?: string | Ref<string>;
 }
 ```

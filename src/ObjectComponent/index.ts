@@ -1,4 +1,4 @@
-import type { Ref, Component, PropType, DirectiveArguments, VNode } from 'vue'
+import type { Ref, Component, PropType, DirectiveArguments, VNode, ComputedRef } from 'vue'
 import { defineComponent, computed, h, getCurrentInstance, resolveDynamicComponent, withDirectives, withModifiers, withMemo, isRef, createCommentVNode } from 'vue'
 const ObjectComponent = defineComponent({
   name: 'ObjectComponent',
@@ -57,6 +57,10 @@ const ObjectComponent = defineComponent({
               } else if (typeof props.is[key] === 'object') {
                 Object.assign(finalAttrs, props.is[key])
               }
+            } else if (/^v-text/.test(key)) {
+              Object.assign(finalAttrs, { textContent: props.is[key] })
+            } else if (/^v-html/.test(key)) {
+              Object.assign(finalAttrs, { innerHTML: props.is[key] })
             }
           }
           else {
@@ -101,9 +105,16 @@ const ObjectComponent = defineComponent({
     }
 
     return () => {
+      let memo = null
       if (props.is['v-memo']) {
-        let memo = isRef(props.is['v-memo']) ? props.is['v-memo'].value : props.is['v-memo']
+        memo = isRef(props.is['v-memo']) ? props.is['v-memo'].value : props.is['v-memo']
         memo = memo.map((i: any) => isRef(i) ? i.value : i)
+      }
+      if (props.is['v-once']) {
+        const once = isRef(props.is['v-once']) ? props.is['v-once'].value : props.is['v-once']
+        memo = once ? [] : memo
+      }
+      if (memo instanceof Array) { 
         return withMemo(memo, render, cache, 0)
       }
       return render()
@@ -117,6 +128,13 @@ export interface ObjectComponentIs extends Record<string, any> {
   _children?: any[] | Record<string, any>;
   _slots?: Record<string, () => JSX.Element | JSX.Element[]>;
   _render?: () => JSX.Element | JSX.Element[];
+  'v-model'?: Ref<any>;
+  'v-bind'?: Object | Ref<Object>;
+  'v-if'?: boolean | Ref<boolean>;
+  'v-memo'?: Ref<any[]> | Ref<any>[];
+  'v-once'?: boolean | Ref<boolean>; // == v-memo="[]"
+  'v-html'?: string | Ref<string>;
+  'v-text'?: string | Ref<string>;
 }
 
 export default ObjectComponent
